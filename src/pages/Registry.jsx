@@ -8,7 +8,7 @@ import { useEffect, useRef } from 'react';
 //      e.g. //www.myregistry.com/…EmbedRegistry.ashx?r=12345678&v=2
 //                                                       ^^^^^^^^
 // ─────────────────────────────────────────────────────────────────────────────
-const REGISTRY_ID = 'the-celebration'; // ← replace with your numeric ID if slug doesn't work
+const REGISTRY_ID = '5326698';
 
 export default function Registry() {
   const embedRef = useRef(null);
@@ -63,7 +63,7 @@ export default function Registry() {
           but if you'd like to spoil us, here's where to start.
         </p>
         <a
-          href={`https://www.myregistry.com/giftlist/the-celebration`}
+          href="https://www.myregistry.com/giftlist/the-celebration"
           target="_blank"
           rel="noopener noreferrer"
           className="registry-external-link"
