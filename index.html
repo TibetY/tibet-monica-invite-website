@@ -561,6 +561,27 @@
     .reveal-delay-2 { transition-delay: .2s; }
     .reveal-delay-3 { transition-delay: .3s; }
 
+    /* ── Extra guest blocks ───────────────────────────── */
+    .guest-block {
+      border: 1px solid var(--linen);
+      border-radius: 16px;
+      padding: 1.4rem 1.4rem 1rem;
+      background: rgba(255,255,255,.6);
+      display: flex;
+      flex-direction: column;
+      gap: .85rem;
+      animation: fadeUp .35s ease forwards;
+    }
+
+    .guest-block-label {
+      font-size: .68rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--sage);
+      margin-bottom: -.2rem;
+    }
+
     /* ── Responsive ───────────────────────────────────── */
     @media (max-width: 560px) {
       .field-group { flex-direction: column; }
@@ -756,7 +777,7 @@
     <h2 class="rsvp-heading reveal reveal-delay-1">Will you join us?</h2>
     <p class="rsvp-sub reveal reveal-delay-2">Let us know by 16 April 2026</p>
 
-    <form class="rsvp-form reveal reveal-delay-2" id="rsvp-form" novalidate>
+    <form class="rsvp-form reveal reveal-delay-2" id="rsvp-form" action="https://formspree.io/f/xpqjjnwg" method="POST" novalidate>
       <div class="field-group">
         <div class="field">
           <label for="fname">First name</label>
@@ -781,6 +802,9 @@
           <option value="3">3 guests</option>
         </select>
       </div>
+
+      <!-- Dynamic extra guest fields injected here -->
+      <div id="extra-guest-fields"></div>
 
       <div class="field">
         <label for="kids">Number of kids (if any)</label>
@@ -838,8 +862,39 @@
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+  /* ── Dynamic guest fields ── */
+  const guestsSelect = document.getElementById('guests');
+  const extraGuestFields = document.getElementById('extra-guest-fields');
+
+  function buildGuestFields(count) {
+    extraGuestFields.innerHTML = '';
+    for (let i = 2; i <= count; i++) {
+      const block = document.createElement('div');
+      block.className = 'guest-block';
+      block.innerHTML = `
+        <span class="guest-block-label">Guest ${i}</span>
+        <div class="field-group">
+          <div class="field">
+            <label for="guest${i}_name">Full name</label>
+            <input type="text" id="guest${i}_name" name="guest${i}_name" placeholder="Guest ${i} name" />
+          </div>
+          <div class="field">
+            <label for="guest${i}_email">Email</label>
+            <input type="email" id="guest${i}_email" name="guest${i}_email" placeholder="guest@example.com" />
+          </div>
+        </div>`;
+      extraGuestFields.appendChild(block);
+    }
+    // re-attach reset-highlight listeners for new inputs
+    extraGuestFields.querySelectorAll('input').forEach(el => {
+      el.addEventListener('input', () => el.style.borderColor = '');
+    });
+  }
+
+  guestsSelect.addEventListener('change', () => buildGuestFields(parseInt(guestsSelect.value, 10)));
+
   /* ── RSVP form ── */
-  document.getElementById('rsvp-form').addEventListener('submit', function(e) {
+  document.getElementById('rsvp-form').addEventListener('submit', async function(e) {
     e.preventDefault();
 
     const form = this;
@@ -853,13 +908,32 @@
       return;
     }
 
-    // In production, replace this with your form endpoint (Formspree, Netlify Forms, etc.)
-    console.log('RSVP submitted:', Object.fromEntries(new FormData(form)));
+    const btn = form.querySelector('.btn');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
 
-    form.style.display = 'none';
-    const ty = document.getElementById('thankyou');
-    ty.classList.add('visible');
-    ty.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        form.style.display = 'none';
+        const ty = document.getElementById('thankyou');
+        ty.classList.add('visible');
+        ty.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        btn.disabled = false;
+        btn.textContent = 'RSVP with love';
+        alert('Something went wrong — please try again or email us at tibety@protonmail.com');
+      }
+    } catch {
+      btn.disabled = false;
+      btn.textContent = 'RSVP with love';
+      alert('Something went wrong — please try again or email us at tibety@protonmail.com');
+    }
   });
 
   /* ── Reset validation highlight on input ── */
