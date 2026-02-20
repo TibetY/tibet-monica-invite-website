@@ -1,42 +1,19 @@
-import { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 
-// ─────────────────────────────────────────────────────────────────────────────
-// To find your registry ID:
-//   1. Log into myregistry.com
-//   2. Go to Share Registry → Embed on Website
-//   3. Copy the number after "r=" in the script src
-//      e.g. //www.myregistry.com/…EmbedRegistry.ashx?r=12345678&v=2
-//                                                       ^^^^^^^^
-// ─────────────────────────────────────────────────────────────────────────────
-const REGISTRY_ID = '5326698';
+const REGISTRY_URL = 'https://www.myregistry.com/giftlist/the-celebration';
+
+const gifts = [
+  { emoji: '🏡', label: 'Home & Garden' },
+  { emoji: '🍳', label: 'Kitchen' },
+  { emoji: '✈️',  label: 'Travel Fund' },
+  { emoji: '📚', label: 'Books & Art' },
+];
 
 export default function Registry() {
-  const embedRef = useRef(null);
-
-  useEffect(() => {
-    const container = embedRef.current;
-    if (!container) return;
-
-    // Remove any previous script / iframe from hot-reloads
-    document.getElementById('script_myregistry_giftlist_iframe')?.remove();
-    container.querySelectorAll('iframe').forEach((el) => el.remove());
-
-    const script = document.createElement('script');
-    script.id  = 'script_myregistry_giftlist_iframe';
-    script.src = `//www.myregistry.com/Visitors/GiftList/iFrames/EmbedRegistry.ashx?r=${REGISTRY_ID}&v=2`;
-    script.async = true;
-    container.appendChild(script);
-
-    return () => {
-      document.getElementById('script_myregistry_giftlist_iframe')?.remove();
-      container.querySelectorAll('iframe').forEach((el) => el.remove());
-    };
-  }, []);
-
   return (
     <div className="registry-page">
 
-      {/* ── Botanical corner decorations ── */}
+      {/* ── Botanical corners ── */}
       <svg className="botanical registry-botanical-tl" viewBox="0 0 420 380" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path d="M60 340 C80 280 160 200 240 120 C280 80 340 40 380 20" stroke="#4d7352" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
         <path d="M240 120 C210 100 170 110 150 140 C130 165 140 200 160 210" stroke="#4d7352" strokeWidth="1.2" fill="rgba(122,158,126,.35)" strokeLinecap="round"/>
@@ -62,22 +39,49 @@ export default function Registry() {
           Your presence is truly the only gift we need —<br />
           but if you'd like to spoil us, here's where to start.
         </p>
-        <a
-          href="https://www.myregistry.com/giftlist/the-celebration"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="registry-external-link"
-        >
-          Open on MyRegistry.com ↗
-        </a>
       </div>
 
-      {/* ── Embed ── */}
-      <div className="registry-embed-outer">
-        <div className="registry-embed-inner" ref={embedRef}>
-          {/* myregistry script injects an iframe here */}
-          <div className="registry-loading">Loading registry…</div>
+      {/* ── Card ── */}
+      <div className="registry-card-wrap">
+        <div className="registry-card">
+
+          <div className="registry-card-icon">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M32 8C24 8 18 14 18 22C18 28 22 33 32 40C42 33 46 28 46 22C46 14 40 8 32 8Z" stroke="#4d7352" strokeWidth="1.5" fill="rgba(122,158,126,.15)"/>
+              <path d="M32 40V56" stroke="#4d7352" strokeWidth="1.5" strokeLinecap="round"/>
+              <path d="M20 56H44" stroke="#4d7352" strokeWidth="1.5" strokeLinecap="round"/>
+              <path d="M18 22C14 16 8 18 8 24C8 30 18 34 32 40" stroke="#4d7352" strokeWidth="1.2" fill="none" strokeLinecap="round"/>
+              <path d="M46 22C50 16 56 18 56 24C56 30 46 34 32 40" stroke="#4d7352" strokeWidth="1.2" fill="none" strokeLinecap="round"/>
+            </svg>
+          </div>
+
+          <p className="registry-card-label">Our registry lives on</p>
+          <p className="registry-card-site">MyRegistry.com</p>
+
+          <div className="registry-chips">
+            {gifts.map((g) => (
+              <span key={g.label} className="registry-chip">
+                {g.emoji} {g.label}
+              </span>
+            ))}
+          </div>
+
+          <a
+            href={REGISTRY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="registry-cta"
+          >
+            View Our Registry
+          </a>
+
+          <p className="registry-card-hint">Opens in a new tab</p>
         </div>
+      </div>
+
+      {/* ── Back link ── */}
+      <div className="registry-back">
+        <Link to="/" className="registry-back-link">← Back to invitation</Link>
       </div>
 
     </div>
