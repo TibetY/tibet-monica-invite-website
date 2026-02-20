@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guest List · Tibet &amp; Monica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sage:       #7a9e7e;
+      --sage-deep:  #4d7352;
+      --linen:      #e8ddd0;
+      --cream:      #f7f2eb;
+      --ink:        #2c2c2c;
+      --muted:      #888;
+      --radius:     14px;
+      --ff-serif:   'Cormorant Garamond', Georgia, serif;
+      --ff-sans:    'Jost', system-ui, sans-serif;
+    }
+
+    body {
+      font-family: var(--ff-sans);
+      background: var(--cream);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ── Password gate ── */
+    #gate {
+      position: fixed; inset: 0;
+      background: var(--cream);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 100;
+    }
+    #gate.hidden { display: none; }
+
+    .gate-card {
+      background: #fff;
+      border: 1px solid var(--linen);
+      border-radius: 24px;
+      padding: 2.8rem 2.4rem 2.4rem;
+      width: min(380px, 92vw);
+      text-align: center;
+      box-shadow: 0 8px 40px rgba(0,0,0,.06);
+    }
+    .gate-card h1 {
+      font-family: var(--ff-serif);
+      font-weight: 300;
+      font-size: 2rem;
+      margin-bottom: .4rem;
+    }
+    .gate-card p { color: var(--muted); font-size: .85rem; margin-bottom: 1.6rem; }
+    .gate-card input[type="password"] {
+      width: 100%;
+      padding: .8rem 1rem;
+      border: 1px solid var(--linen);
+      border-radius: var(--radius);
+      font-family: var(--ff-sans);
+      font-size: .95rem;
+      background: var(--cream);
+      outline: none;
+      transition: border-color .2s;
+      margin-bottom: .9rem;
+    }
+    .gate-card input[type="password"]:focus { border-color: var(--sage); }
+    .gate-btn {
+      width: 100%;
+      padding: .85rem;
+      background: var(--sage-deep);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-family: var(--ff-sans);
+      font-size: .85rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .gate-btn:hover { background: var(--sage); }
+    .gate-error {
+      font-size: .8rem;
+      color: #c0392b;
+      margin-top: .6rem;
+      min-height: 1.2em;
+    }
+
+    /* ── Main layout ── */
+    #app { display: none; }
+    #app.visible { display: block; }
+
+    header {
+      background: #fff;
+      border-bottom: 1px solid var(--linen);
+      padding: 1.4rem 2rem;
+      display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap;
+    }
+    header h1 {
+      font-family: var(--ff-serif);
+      font-weight: 300;
+      font-size: 1.7rem;
+      flex: 1;
+    }
+    header .subtitle { color: var(--muted); font-size: .82rem; }
+
+    main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+    /* ── Stats row ── */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: #fff;
+      border: 1px solid var(--linen);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.4rem;
+    }
+    .stat-card .stat-label {
+      font-size: .7rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .3rem;
+    }
+    .stat-card .stat-value {
+      font-family: var(--ff-serif);
+      font-size: 2.4rem;
+      font-weight: 300;
+      line-height: 1;
+      color: var(--sage-deep);
+    }
+
+    /* ── Table ── */
+    .table-wrap {
+      background: #fff;
+      border: 1px solid var(--linen);
+      border-radius: var(--radius);
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .88rem;
+    }
+    thead th {
+      text-align: left;
+      padding: .9rem 1rem;
+      font-size: .68rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid var(--linen);
+      white-space: nowrap;
+    }
+    tbody tr { border-bottom: 1px solid var(--linen); transition: background .15s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--cream); }
+    tbody td { padding: .85rem 1rem; vertical-align: top; }
+
+    .name-cell strong { display: block; }
+    .name-cell span { font-size: .8rem; color: var(--muted); }
+
+    .pill {
+      display: inline-block;
+      padding: .2rem .6rem;
+      border-radius: 99px;
+      font-size: .74rem;
+      background: var(--linen);
+      color: var(--ink);
+    }
+    .pill.green { background: #dff0e0; color: var(--sage-deep); }
+
+    .dietary-text { font-size: .82rem; color: var(--ink); }
+    .dietary-none { font-size: .82rem; color: var(--muted); }
+
+    .note-text { font-size: .82rem; font-style: italic; color: var(--ink); max-width: 220px; }
+
+    .guests-detail { font-size: .78rem; color: var(--muted); margin-top: .3rem; line-height: 1.5; }
+
+    .date-text { font-size: .8rem; color: var(--muted); white-space: nowrap; }
+
+    /* ── Empty / loading ── */
+    .empty {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--muted);
+      font-family: var(--ff-serif);
+      font-size: 1.2rem;
+      font-style: italic;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--muted);
+      font-size: .85rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Password gate ── -->
+<div id="gate">
+  <div class="gate-card">
+    <h1>Tibet &amp; Monica</h1>
+    <p>Guest list · Private</p>
+    <input type="password" id="pw-input" placeholder="Password" autofocus />
+    <button class="gate-btn" id="pw-btn">Enter</button>
+    <div class="gate-error" id="pw-error"></div>
+  </div>
+</div>
+
+<!-- ── Main app ── -->
+<div id="app">
+  <header>
+    <h1>Guest List</h1>
+    <span class="subtitle">Tibet &amp; Monica · May 2026</span>
+  </header>
+
+  <main>
+    <div class="stats" id="stats">
+      <div class="stat-card">
+        <div class="stat-label">RSVPs</div>
+        <div class="stat-value" id="stat-rsvps">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total guests</div>
+        <div class="stat-value" id="stat-guests">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Kids</div>
+        <div class="stat-value" id="stat-kids">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Dietary notes</div>
+        <div class="stat-value" id="stat-dietary">—</div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <div class="loading" id="loading">Loading guests…</div>
+      <table id="guest-table" style="display:none;">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Party</th>
+            <th>Dietary</th>
+            <th>Note</th>
+            <th>Submitted</th>
+          </tr>
+        </thead>
+        <tbody id="guest-tbody"></tbody>
+      </table>
+      <div class="empty" id="empty" style="display:none;">No RSVPs yet — check back soon.</div>
+    </div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+  /* ── Config ── */
+  const SUPABASE_URL = 'https://ghslqszqspaimwrubfli.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_55KjOs9gLyLo_e944MLZBw_mgG2w7BF';
+  // Change this password to whatever you like
+  const GUESTLIST_PASSWORD = 'tibet2026';
+
+  /* ── Password gate ── */
+  const gate    = document.getElementById('gate');
+  const pwInput = document.getElementById('pw-input');
+  const pwBtn   = document.getElementById('pw-btn');
+  const pwError = document.getElementById('pw-error');
+  const app     = document.getElementById('app');
+
+  function unlock() {
+    if (pwInput.value === GUESTLIST_PASSWORD) {
+      gate.classList.add('hidden');
+      app.classList.add('visible');
+      loadGuests();
+    } else {
+      pwError.textContent = 'Incorrect password.';
+      pwInput.value = '';
+      pwInput.focus();
+    }
+  }
+
+  pwBtn.addEventListener('click', unlock);
+  pwInput.addEventListener('keydown', e => { if (e.key === 'Enter') unlock(); });
+
+  /* ── Load & render guests ── */
+  const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  async function loadGuests() {
+    const { data, error } = await db
+      .from('rsvps')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    document.getElementById('loading').style.display = 'none';
+
+    if (error) {
+      document.getElementById('empty').textContent = 'Error loading data — ' + error.message;
+      document.getElementById('empty').style.display = 'block';
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      document.getElementById('empty').style.display = 'block';
+      return;
+    }
+
+    // Stats
+    const totalRsvps   = data.length;
+    const totalGuests  = data.reduce((s, r) => s + (r.guests || 1), 0);
+    const totalKids    = data.reduce((s, r) => s + (r.kids   || 0), 0);
+    const withDietary  = data.filter(r =>
+      [r.dietary, r.guest2_dietary, r.guest3_dietary].some(d => d && d.trim())
+    ).length;
+
+    document.getElementById('stat-rsvps').textContent    = totalRsvps;
+    document.getElementById('stat-guests').textContent   = totalGuests;
+    document.getElementById('stat-kids').textContent     = totalKids;
+    document.getElementById('stat-dietary').textContent  = withDietary;
+
+    // Table
+    const tbody = document.getElementById('guest-tbody');
+    tbody.innerHTML = '';
+
+    data.forEach(r => {
+      const guestCount = r.guests || 1;
+      const kidsCount  = r.kids   || 0;
+
+      // Build extra-guest details
+      const extras = [];
+      if (guestCount >= 2 && r.guest2_name) {
+        extras.push(`${r.guest2_name}${r.guest2_dietary ? ' · ' + r.guest2_dietary : ''}`);
+      }
+      if (guestCount >= 3 && r.guest3_name) {
+        extras.push(`${r.guest3_name}${r.guest3_dietary ? ' · ' + r.guest3_dietary : ''}`);
+      }
+
+      // Collect all dietary notes for this party
+      const dietaryItems = [r.dietary, r.guest2_dietary, r.guest3_dietary]
+        .filter(d => d && d.trim());
+
+      const submitted = r.created_at
+        ? new Date(r.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' })
+        : '—';
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="name-cell">
+          <strong>${esc(r.fname)} ${esc(r.lname || '')}</strong>
+        </td>
+        <td><span style="font-size:.82rem;">${esc(r.email)}</span></td>
+        <td>
+          <span class="pill green">${guestCount} guest${guestCount !== 1 ? 's' : ''}</span>
+          ${kidsCount ? `<span class="pill" style="margin-left:.3rem;">${kidsCount} kid${kidsCount !== 1 ? 's' : ''}</span>` : ''}
+          ${extras.length ? `<div class="guests-detail">${extras.map(esc).join('<br>')}</div>` : ''}
+        </td>
+        <td>
+          ${dietaryItems.length
+            ? `<span class="dietary-text">${dietaryItems.map(esc).join('; ')}</span>`
+            : `<span class="dietary-none">None</span>`}
+        </td>
+        <td>${r.note ? `<span class="note-text">${esc(r.note)}</span>` : '<span class="dietary-none">—</span>'}</td>
+        <td><span class="date-text">${submitted}</span></td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    document.getElementById('guest-table').style.display = 'table';
+  }
+
+  function esc(str) {
+    return String(str ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+</script>
+</body>
+</html>
