@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tibet & Monica — Housewarming & Elopement Celebration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Base ─────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sage:        #7a9e7e;
+      --sage-light:  #a8c5aa;
+      --sage-pale:   #d6e8d7;
+      --sage-deep:   #4d7352;
+      --cream:       #f8f4ed;
+      --cream-warm:  #f0e9dc;
+      --linen:       #e8dfd0;
+      --ink:         #2c3a2e;
+      --ink-soft:    #4a5c4c;
+      --gold:        #c9a86c;
+      --gold-light:  #e8d5a8;
+
+      --font-serif:  'Cormorant Garamond', Georgia, serif;
+      --font-sans:   'Jost', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── Leaf / Botanical SVG Decoration ─────────────── */
+    .botanical {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.18;
+    }
+
+    /* ── Hero ─────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: var(--cream);
+      overflow: hidden;
+      padding: 4rem 2rem;
+    }
+
+    /* Layered background rings */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 55% at 50% 42%,
+          rgba(122,158,126,.13) 0%,
+          transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Top botanical cluster */
+    .hero-botanical-tl {
+      top: -40px; left: -60px;
+      width: 420px;
+      transform: rotate(-15deg);
+    }
+    .hero-botanical-br {
+      bottom: -50px; right: -60px;
+      width: 380px;
+      transform: rotate(168deg);
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-sans);
+      font-size: .72rem;
+      font-weight: 500;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--sage-deep);
+      margin-bottom: 1.6rem;
+      opacity: 0;
+      animation: fadeUp .8s .2s ease forwards;
+    }
+
+    .hero-names {
+      font-family: var(--font-serif);
+      font-size: clamp(3.8rem, 10vw, 8rem);
+      font-weight: 300;
+      line-height: 1;
+      color: var(--ink);
+      letter-spacing: -.01em;
+      opacity: 0;
+      animation: fadeUp .9s .4s ease forwards;
+    }
+
+    .hero-names em {
+      font-style: italic;
+      color: var(--sage-deep);
+    }
+
+    .hero-ampersand {
+      display: block;
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      color: var(--gold);
+      margin: .1em 0;
+      font-weight: 300;
+    }
+
+    .hero-divider {
+      width: 120px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 2.2rem auto;
+      opacity: 0;
+      animation: fadeUp .8s .6s ease forwards;
+    }
+
+    .hero-tagline {
+      font-family: var(--font-serif);
+      font-size: clamp(1.15rem, 2.8vw, 1.6rem);
+      font-style: italic;
+      font-weight: 300;
+      color: var(--ink-soft);
+      max-width: 520px;
+      line-height: 1.5;
+      opacity: 0;
+      animation: fadeUp .8s .75s ease forwards;
+    }
+
+    .hero-date-badge {
+      margin-top: 2.6rem;
+      padding: .9rem 2.4rem;
+      border: 1px solid var(--sage-light);
+      border-radius: 60px;
+      background: rgba(255,255,255,.55);
+      backdrop-filter: blur(6px);
+      font-size: .78rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--sage-deep);
+      font-weight: 500;
+      opacity: 0;
+      animation: fadeUp .8s .9s ease forwards;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.4rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .6rem;
+      color: var(--sage);
+      font-size: .68rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp .8s 1.3s ease forwards;
+    }
+
+    .hero-scroll svg { animation: bounce 2s ease infinite; }
+
+    /* ── Story Section ────────────────────────────────── */
+    .story {
+      position: relative;
+      background: var(--sage-deep);
+      color: var(--cream);
+      padding: 7rem 2rem;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .story::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 50%,
+        rgba(255,255,255,.05) 0%, transparent 70%);
+    }
+
+    .story-botanical {
+      position: absolute;
+      opacity: .12;
+    }
+    .story-botanical-l { top: 0; left: -80px; width: 360px; transform: rotate(20deg); }
+    .story-botanical-r { bottom: 0; right: -80px; width: 360px; transform: rotate(195deg); }
+
+    .section-label {
+      font-size: .68rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--gold-light);
+      margin-bottom: 1.4rem;
+      display: block;
+    }
+
+    .story-heading {
+      font-family: var(--font-serif);
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.2;
+      color: #fff;
+      margin-bottom: 2rem;
+    }
+
+    .story-text {
+      font-family: var(--font-serif);
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      font-weight: 300;
+      color: rgba(255,255,255,.82);
+      max-width: 640px;
+      margin: 0 auto;
+      line-height: 1.85;
+    }
+
+    .story-text + .story-text { margin-top: 1.4rem; }
+
+    /* ── Details Section ──────────────────────────────── */
+    .details {
+      padding: 7rem 2rem;
+      background: var(--cream);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .details-heading {
+      font-family: var(--font-serif);
+      font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+
+    .details-sub {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--ink-soft);
+      margin-bottom: 4rem;
+    }
+
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.6rem;
+      justify-content: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .card {
+      flex: 1 1 240px;
+      max-width: 280px;
+      background: #fff;
+      border: 1px solid var(--linen);
+      border-radius: 20px;
+      padding: 2.4rem 2rem;
+      text-align: center;
+      transition: transform .3s ease, box-shadow .3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--sage-light), var(--sage-deep), var(--sage-light));
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(77,115,82,.12);
+    }
+
+    .card-icon {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .card-label {
+      font-size: .68rem;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--sage);
+      margin-bottom: .6rem;
+    }
+
+    .card-value {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.35;
+    }
+
+    .card-note {
+      margin-top: .5rem;
+      font-size: .82rem;
+      color: var(--ink-soft);
+    }
+
+    /* ── Dress Code strip ─────────────────────────────── */
+    .dress-strip {
+      background: var(--sage-pale);
+      padding: 3.6rem 2rem;
+      text-align: center;
+    }
+
+    .dress-strip .section-label { color: var(--sage-deep); }
+
+    .dress-palette {
+      display: flex;
+      justify-content: center;
+      gap: .8rem;
+      flex-wrap: wrap;
+      margin-top: 1.6rem;
+    }
+
+    .swatch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .5rem;
+      font-size: .7rem;
+      letter-spacing: .1em;
+      color: var(--ink-soft);
+    }
+
+    .swatch-circle {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 2px solid rgba(0,0,0,.08);
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+
+    .dress-note {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--ink);
+      margin-top: 1.8rem;
+    }
+
+    /* ── RSVP Section ─────────────────────────────────── */
+    .rsvp {
+      padding: 7rem 2rem;
+      background: var(--cream-warm);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .rsvp-botanical {
+      position: absolute;
+      opacity: .1;
+    }
+    .rsvp-botanical-l { bottom: -60px; left: -80px; width: 380px; transform: rotate(30deg); }
+    .rsvp-botanical-r { top: -40px; right: -80px; width: 320px; transform: rotate(200deg); }
+
+    .rsvp-heading {
+      font-family: var(--font-serif);
+      font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: .6rem;
+    }
+
+    .rsvp-sub {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--ink-soft);
+      margin-bottom: 3rem;
+    }
+
+    .rsvp-form {
+      max-width: 480px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .field-group {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      flex: 1;
+      gap: .35rem;
+    }
+
+    label {
+      font-size: .7rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--sage-deep);
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: .85rem 1.1rem;
+      border: 1px solid var(--linen);
+      border-radius: 12px;
+      background: #fff;
+      font-family: var(--font-sans);
+      font-size: .9rem;
+      color: var(--ink);
+      font-weight: 300;
+      outline: none;
+      transition: border-color .25s, box-shadow .25s;
+      -webkit-appearance: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--sage);
+      box-shadow: 0 0 0 3px rgba(122,158,126,.15);
+    }
+
+    select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a9e7e' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; }
+
+    textarea { resize: vertical; min-height: 90px; }
+
+    .btn {
+      margin-top: .6rem;
+      padding: 1.05rem 2.8rem;
+      background: var(--sage-deep);
+      color: #fff;
+      border: none;
+      border-radius: 60px;
+      font-family: var(--font-sans);
+      font-size: .8rem;
+      font-weight: 500;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background .25s, transform .2s, box-shadow .25s;
+      align-self: center;
+    }
+
+    .btn:hover {
+      background: var(--sage);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(77,115,82,.25);
+    }
+
+    .btn:active { transform: translateY(0); }
+
+    .rsvp-deadline {
+      margin-top: 2rem;
+      font-size: .78rem;
+      color: var(--ink-soft);
+      letter-spacing: .05em;
+    }
+
+    /* ── Thank-you overlay ────────────────────────────── */
+    .thankyou {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      padding: 3rem 2rem;
+    }
+
+    .thankyou.visible { display: flex; }
+
+    .thankyou-icon { font-size: 2.8rem; }
+
+    .thankyou-heading {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      font-style: italic;
+      color: var(--sage-deep);
+    }
+
+    .thankyou-text { font-size: .95rem; color: var(--ink-soft); max-width: 320px; text-align: center; }
+
+    /* ── Footer ───────────────────────────────────────── */
+    footer {
+      background: var(--ink);
+      color: rgba(255,255,255,.55);
+      text-align: center;
+      padding: 3rem 2rem;
+      font-size: .78rem;
+      letter-spacing: .08em;
+    }
+
+    footer strong {
+      display: block;
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      font-style: italic;
+      font-weight: 300;
+      color: rgba(255,255,255,.85);
+      margin-bottom: .5rem;
+    }
+
+    .footer-divider {
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+      margin: 1.2rem auto;
+      opacity: .5;
+    }
+
+    /* ── Animations ───────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(6px); }
+    }
+
+    /* Scroll reveal utility */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+
+    /* ── Responsive ───────────────────────────────────── */
+    @media (max-width: 560px) {
+      .field-group { flex-direction: column; }
+      .cards { gap: 1.2rem; }
+      .card { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════ HERO ══════════════════ -->
+<section class="hero">
+
+  <!-- Botanical SVG – top-left -->
+  <svg class="botanical hero-botanical-tl" viewBox="0 0 420 380" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M60 340 C80 280 160 200 240 120 C280 80 340 40 380 20" stroke="#4d7352" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M240 120 C210 100 170 110 150 140 C130 165 140 200 160 210" stroke="#4d7352" stroke-width="1.2" fill="rgba(122,158,126,.35)" stroke-linecap="round"/>
+    <path d="M280 80 C255 65 220 72 205 98 C190 122 200 150 218 158" stroke="#4d7352" stroke-width="1.2" fill="rgba(122,158,126,.28)" stroke-linecap="round"/>
+    <path d="M330 50 C310 35 278 42 265 65 C252 88 262 112 280 118" stroke="#4d7352" stroke-width="1.2" fill="rgba(122,158,126,.25)" stroke-linecap="round"/>
+    <path d="M180 170 C160 145 125 148 112 174 C100 198 112 228 132 234" stroke="#4d7352" stroke-width="1.2" fill="rgba(122,158,126,.2)" stroke-linecap="round"/>
+    <path d="M290 100 C320 80 360 90 370 115 C380 140 360 165 338 165" stroke="#4d7352" stroke-width="1.1" fill="rgba(122,158,126,.18)" stroke-linecap="round"/>
+    <!-- Small fern fronds -->
+    <path d="M200 135 Q185 115 175 122 Q165 128 172 142" stroke="#4d7352" stroke-width="1" fill="rgba(168,197,170,.4)"/>
+    <path d="M215 125 Q200 102 188 108 Q177 115 186 130" stroke="#4d7352" stroke-width="1" fill="rgba(168,197,170,.35)"/>
+    <path d="M140 200 Q122 182 112 192 Q103 200 114 215" stroke="#4d7352" stroke-width="1" fill="rgba(168,197,170,.35)"/>
+    <path d="M120 260 Q100 248 94 260 Q88 272 100 280" stroke="#4d7352" stroke-width="1" fill="rgba(168,197,170,.3)"/>
+    <path d="M90 300 Q72 290 68 302 Q64 314 76 320" stroke="#4d7352" stroke-width="1" fill="rgba(168,197,170,.25)"/>
+  </svg>
+
+  <!-- Botanical SVG – bottom-right -->
+  <svg class="botanical hero-botanical-br" viewBox="0 0 420 380" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M60 340 C80 280 160 200 240 120 C280 80 340 40 380 20" stroke="#4d7352" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M240 120 C210 100 170 110 150 140 C130 165 140 200 160 210" stroke="#4d7352" stroke-width="1.2" fill="rgba(122,158,126,.35)" stroke-linecap="round"/>
+    <path d="M280 80 C255 65 220 72 205 98 C190 122 200 150 218 158" stroke="#4d7352" stroke-width="1.2" fill="rgba(122,158,126,.28)" stroke-linecap="round"/>
+    <path d="M330 50 C310 35 278 42 265 65 C252 88 262 112 280 118" stroke="#4d7352" stroke-width="1.2" fill="rgba(122,158,126,.25)" stroke-linecap="round"/>
+    <path d="M290 100 C320 80 360 90 370 115 C380 140 360 165 338 165" stroke="#4d7352" stroke-width="1.1" fill="rgba(122,158,126,.18)" stroke-linecap="round"/>
+    <path d="M200 135 Q185 115 175 122 Q165 128 172 142" stroke="#4d7352" stroke-width="1" fill="rgba(168,197,170,.4)"/>
+    <path d="M215 125 Q200 102 188 108 Q177 115 186 130" stroke="#4d7352" stroke-width="1" fill="rgba(168,197,170,.35)"/>
+    <path d="M140 200 Q122 182 112 192 Q103 200 114 215" stroke="#4d7352" stroke-width="1" fill="rgba(168,197,170,.35)"/>
+  </svg>
+
+  <span class="hero-eyebrow">You're invited to celebrate</span>
+
+  <h1 class="hero-names">
+    <em>Tibet</em>
+    <span class="hero-ampersand">&amp;</span>
+    <em>Monica</em>
+  </h1>
+
+  <div class="hero-divider"></div>
+
+  <p class="hero-tagline">
+    We said "I do" — now come see where we do life.
+    <br>Join us for a housewarming &amp; elopement celebration.
+  </p>
+
+  <div class="hero-date-badge">
+    Saturday · 14 June 2025 · 4 in the afternoon
+  </div>
+
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M3 6l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+</section>
+
+
+<!-- ══════════════════ STORY ══════════════════ -->
+<section class="story">
+
+  <svg class="story-botanical story-botanical-l" viewBox="0 0 360 420" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M40 380 C60 310 130 230 200 145 C240 100 300 60 340 30" stroke="#fff" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <path d="M200 145 C172 128 138 140 122 168 C106 195 116 228 138 236" stroke="#fff" stroke-width="1.2" fill="rgba(255,255,255,.12)" stroke-linecap="round"/>
+    <path d="M250 98 C224 82 192 90 178 115 C163 140 174 168 194 175" stroke="#fff" stroke-width="1.2" fill="rgba(255,255,255,.1)" stroke-linecap="round"/>
+    <path d="M300 62 C278 48 248 56 234 78 C220 100 230 126 250 132" stroke="#fff" stroke-width="1.2" fill="rgba(255,255,255,.08)" stroke-linecap="round"/>
+  </svg>
+
+  <svg class="story-botanical story-botanical-r" viewBox="0 0 360 420" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M40 380 C60 310 130 230 200 145 C240 100 300 60 340 30" stroke="#fff" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <path d="M200 145 C172 128 138 140 122 168 C106 195 116 228 138 236" stroke="#fff" stroke-width="1.2" fill="rgba(255,255,255,.12)" stroke-linecap="round"/>
+    <path d="M250 98 C224 82 192 90 178 115 C163 140 174 168 194 175" stroke="#fff" stroke-width="1.2" fill="rgba(255,255,255,.1)" stroke-linecap="round"/>
+  </svg>
+
+  <div style="position: relative; z-index: 1; max-width: 680px; margin: 0 auto;">
+    <span class="section-label reveal">Our Story</span>
+    <h2 class="story-heading reveal reveal-delay-1">
+      We snuck off and got married.<br>
+      Now we want to celebrate with you.
+    </h2>
+    <p class="story-text reveal reveal-delay-2">
+      After years of building a life together, we decided to make it official in the most
+      us way possible — just the two of us, somewhere beautiful, no fuss.
+      We came home as husband and wife, and now we have a home to show for it.
+    </p>
+    <p class="story-text reveal reveal-delay-3">
+      We'd love nothing more than to fill our new place with the people we love most,
+      raise a glass, and let you see where our next chapter begins.
+    </p>
+  </div>
+
+</section>
+
+
+<!-- ══════════════════ DETAILS ══════════════════ -->
+<section class="details" id="details">
+  <span class="section-label reveal" style="color: var(--sage);">The Details</span>
+  <h2 class="details-heading reveal reveal-delay-1">Everything you need to know</h2>
+  <p class="details-sub reveal reveal-delay-2">Come as you are — we just want you there.</p>
+
+  <div class="cards">
+    <div class="card reveal reveal-delay-1">
+      <span class="card-icon">📅</span>
+      <div class="card-label">When</div>
+      <div class="card-value">Saturday<br>14 June 2025</div>
+      <div class="card-note">Doors open at 4 pm<br>Party til late</div>
+    </div>
+
+    <div class="card reveal reveal-delay-2">
+      <span class="card-icon">📍</span>
+      <div class="card-label">Where</div>
+      <div class="card-value">Our New Home</div>
+      <div class="card-note">
+        Address shared upon RSVP<br>
+        <em style="font-family: var(--font-serif); font-size: .95rem;">(It's a surprise until then)</em>
+      </div>
+    </div>
+
+    <div class="card reveal reveal-delay-3">
+      <span class="card-icon">🥂</span>
+      <div class="card-label">Vibe</div>
+      <div class="card-value">Garden Party<br>Meets Cocktail Hour</div>
+      <div class="card-note">Food, drinks &amp; dancing<br>will absolutely happen</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════ DRESS CODE ══════════════════ -->
+<section class="dress-strip">
+  <span class="section-label reveal">Dress Code</span>
+  <h3 class="reveal reveal-delay-1" style="font-family: var(--font-serif); font-size: 1.9rem; font-weight: 300; color: var(--ink);">
+    Garden-Party Chic
+  </h3>
+
+  <div class="dress-palette reveal reveal-delay-2">
+    <div class="swatch">
+      <div class="swatch-circle" style="background:#7a9e7e;"></div>
+      <span>Sage</span>
+    </div>
+    <div class="swatch">
+      <div class="swatch-circle" style="background:#a8c5aa;"></div>
+      <span>Mint</span>
+    </div>
+    <div class="swatch">
+      <div class="swatch-circle" style="background:#f8f4ed;"></div>
+      <span>Cream</span>
+    </div>
+    <div class="swatch">
+      <div class="swatch-circle" style="background:#c9a86c;"></div>
+      <span>Champagne</span>
+    </div>
+    <div class="swatch">
+      <div class="swatch-circle" style="background:#e0d5c8;"></div>
+      <span>Linen</span>
+    </div>
+    <div class="swatch">
+      <div class="swatch-circle" style="background:#2c3a2e;"></div>
+      <span>Forest</span>
+    </div>
+  </div>
+
+  <p class="dress-note reveal reveal-delay-3">
+    Think linen, silk, and earth tones. Comfortable enough to kick your shoes off.
+  </p>
+</section>
+
+
+<!-- ══════════════════ RSVP ══════════════════ -->
+<section class="rsvp" id="rsvp">
+
+  <svg class="rsvp-botanical rsvp-botanical-l" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M50 360 C70 295 145 215 220 135 C258 95 315 55 355 28" stroke="#4d7352" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <path d="M220 135 C192 118 158 130 142 158 C126 185 136 218 158 226" stroke="#4d7352" stroke-width="1.2" fill="rgba(122,158,126,.25)" stroke-linecap="round"/>
+    <path d="M268 90 C242 74 210 82 196 107 C181 132 192 160 212 167" stroke="#4d7352" stroke-width="1.2" fill="rgba(122,158,126,.2)" stroke-linecap="round"/>
+    <path d="M315 58 C293 44 263 52 249 74 C235 96 245 122 265 128" stroke="#4d7352" stroke-width="1.1" fill="rgba(122,158,126,.18)" stroke-linecap="round"/>
+  </svg>
+
+  <svg class="rsvp-botanical rsvp-botanical-r" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M50 360 C70 295 145 215 220 135 C258 95 315 55 355 28" stroke="#4d7352" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <path d="M220 135 C192 118 158 130 142 158 C126 185 136 218 158 226" stroke="#4d7352" stroke-width="1.2" fill="rgba(122,158,126,.25)" stroke-linecap="round"/>
+    <path d="M268 90 C242 74 210 82 196 107 C181 132 192 160 212 167" stroke="#4d7352" stroke-width="1.2" fill="rgba(122,158,126,.2)" stroke-linecap="round"/>
+  </svg>
+
+  <div style="position: relative; z-index: 1;">
+    <span class="section-label reveal" style="color: var(--sage);">RSVP</span>
+    <h2 class="rsvp-heading reveal reveal-delay-1">Will you join us?</h2>
+    <p class="rsvp-sub reveal reveal-delay-2">Let us know by 1 June 2025</p>
+
+    <form class="rsvp-form reveal reveal-delay-2" id="rsvp-form" novalidate>
+      <div class="field-group">
+        <div class="field">
+          <label for="fname">First name</label>
+          <input type="text" id="fname" name="fname" placeholder="Your first name" required />
+        </div>
+        <div class="field">
+          <label for="lname">Last name</label>
+          <input type="text" id="lname" name="lname" placeholder="Your last name" required />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required />
+      </div>
+
+      <div class="field">
+        <label for="guests">Number of guests</label>
+        <select id="guests" name="guests">
+          <option value="1">Just me (1)</option>
+          <option value="2" selected>2 of us</option>
+          <option value="3">3 guests</option>
+          <option value="4">4 guests</option>
+          <option value="5+">5 or more</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="dietary">Dietary notes</label>
+        <input type="text" id="dietary" name="dietary" placeholder="e.g. vegetarian, gluten-free, allergies…" />
+      </div>
+
+      <div class="field">
+        <label for="note">A little note for us <span style="opacity:.5;">(optional)</span></label>
+        <textarea id="note" name="note" placeholder="Congrats, a memory, a song request…"></textarea>
+      </div>
+
+      <button type="submit" class="btn">RSVP with love</button>
+    </form>
+
+    <!-- Thank you message (shown after submit) -->
+    <div class="thankyou" id="thankyou">
+      <div class="thankyou-icon">🌿</div>
+      <div class="thankyou-heading">Can't wait to see you!</div>
+      <p class="thankyou-text">We'll be in touch soon with the address and all the details. Thank you for celebrating with us.</p>
+    </div>
+
+    <p class="rsvp-deadline reveal">Questions? Reach us at <a href="mailto:hello@example.com" style="color: var(--sage-deep);">hello@example.com</a></p>
+  </div>
+</section>
+
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer>
+  <strong>Tibet &amp; Monica</strong>
+  <div class="footer-divider"></div>
+  <span>With love · June 2025</span>
+</footer>
+
+
+<!-- ══════════════════ SCRIPTS ══════════════════ -->
+<script>
+  /* ── Intersection Observer for scroll reveals ── */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  /* ── RSVP form ── */
+  document.getElementById('rsvp-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const form = this;
+    const fname = form.fname.value.trim();
+    const email = form.email.value.trim();
+
+    if (!fname || !email) {
+      const missing = !fname ? form.fname : form.email;
+      missing.style.borderColor = '#c0392b';
+      missing.focus();
+      return;
+    }
+
+    // In production, replace this with your form endpoint (Formspree, Netlify Forms, etc.)
+    console.log('RSVP submitted:', Object.fromEntries(new FormData(form)));
+
+    form.style.display = 'none';
+    const ty = document.getElementById('thankyou');
+    ty.classList.add('visible');
+    ty.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  /* ── Reset validation highlight on input ── */
+  document.querySelectorAll('input, select, textarea').forEach(el => {
+    el.addEventListener('input', () => el.style.borderColor = '');
+  });
+</script>
+
+</body>
+</html>
