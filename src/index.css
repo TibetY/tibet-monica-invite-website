@@ -527,14 +527,17 @@ footer strong {
   background: var(--cream);
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.registry-botanical-tl { top: -40px; left: -60px; width: 380px; transform: rotate(-15deg); opacity: .13; }
-.registry-botanical-br { bottom: -40px; right: -60px; width: 340px; transform: rotate(168deg); opacity: .13; }
+.registry-botanical-tl { position: absolute; top: -40px; left: -60px; width: 380px; transform: rotate(-15deg); opacity: .13; }
+.registry-botanical-br { position: absolute; bottom: -40px; right: -60px; width: 340px; transform: rotate(168deg); opacity: .13; }
 
 .registry-header {
   text-align: center;
-  padding: 5rem 2rem 3rem;
+  padding: 5rem 2rem 2.5rem;
   position: relative;
   z-index: 1;
 }
@@ -563,94 +566,118 @@ footer strong {
   color: var(--ink-soft);
   line-height: 1.6;
   max-width: 480px;
-  margin: 0 auto 1.8rem;
+  margin: 0 auto;
 }
 
-.registry-external-link {
-  display: inline-block;
+/* ── Registry card ── */
+.registry-card-wrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 480px;
+  padding: 2rem 1.5rem 1.5rem;
+}
+
+.registry-card {
+  background: #fff;
+  border: 1px solid var(--linen);
+  border-radius: 24px;
+  box-shadow: 0 12px 60px rgba(44, 58, 46, .09);
+  padding: 3rem 2.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.registry-card-icon svg {
+  width: 64px;
+  height: 64px;
+  margin-bottom: .5rem;
+}
+
+.registry-card-label {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.registry-card-site {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: var(--ink);
+  margin: 0;
+  letter-spacing: .02em;
+}
+
+.registry-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  justify-content: center;
+  margin: .5rem 0;
+}
+
+.registry-chip {
   font-size: .72rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--sage-deep);
+  background: rgba(122, 158, 126, .1);
+  border: 1px solid rgba(122, 158, 126, .25);
+  border-radius: 100px;
+  padding: .35rem .9rem;
+}
+
+.registry-cta {
+  display: inline-block;
+  margin-top: .75rem;
+  padding: .9rem 2.5rem;
+  background: var(--sage);
+  color: #fff;
+  font-size: .8rem;
   font-weight: 500;
-  letter-spacing: .2em;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 100px;
+  transition: background .2s, transform .15s;
+}
+
+.registry-cta:hover {
+  background: var(--sage-deep);
+  transform: translateY(-1px);
+}
+
+.registry-card-hint {
+  font-size: .72rem;
+  color: var(--ink-soft);
+  opacity: .6;
+  margin: 0;
+  letter-spacing: .05em;
+}
+
+.registry-back {
+  position: relative;
+  z-index: 1;
+  padding: 0 1.5rem 3rem;
+}
+
+.registry-back-link {
+  font-size: .75rem;
+  letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--sage-deep);
   text-decoration: none;
-  border-bottom: 1px solid var(--sage-light);
-  padding-bottom: .15rem;
-  transition: color .2s, border-color .2s;
+  opacity: .7;
+  transition: opacity .2s;
 }
 
-.registry-external-link:hover {
-  color: var(--sage);
-  border-color: var(--sage);
-}
-
-/* ── Embed wrapper ── */
-.registry-embed-outer {
-  position: relative;
-  z-index: 1;
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 1.5rem 5rem;
-}
-
-.registry-embed-inner {
-  background: #fff;
-  border: 1px solid var(--linen);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 8px 48px rgba(44, 58, 46, .08);
-  min-height: 600px;
-  position: relative;
-}
-
-/* Loading placeholder — hidden once iframe appears */
-.registry-loading {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 1.1rem;
-  color: var(--ink-soft);
-  pointer-events: none;
-  opacity: 1;
-  transition: opacity .4s ease;
-}
-
-.registry-embed-inner:has(iframe) .registry-loading {
-  opacity: 0;
-}
-
-/*
- * Cross-origin iframe styling ─────────────────────────────
- * We can't reach inside the iframe's DOM (same-origin policy),
- * but CSS filter IS applied to the composited output, letting
- * us desaturate the commercial colours and shift them toward
- * the site's muted sage/cream palette.
- */
-.registry-embed-inner iframe {
-  display: block !important;
-  width: 100% !important;
-  min-height: 600px;
-  border: none !important;
-  border-radius: 0;
-
-  /* Dial back saturation, warm up brightness slightly */
-  filter:
-    saturate(0.72)
-    brightness(1.03)
-    contrast(0.97);
-
-  /* Shift the hue very slightly toward green/sage
-     (positive = toward green, negative = toward blue) */
-  filter:
-    saturate(0.72)
-    brightness(1.03)
-    contrast(0.97)
-    hue-rotate(8deg);
-}
+.registry-back-link:hover { opacity: 1; }
 
 /* ── Guest List page ──────────────────────────────── */
 .gate-wrap {
