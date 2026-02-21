@@ -1,7 +1,7 @@
 export default function Details() {
   return (
     <section className="details" id="details">
-      <span className="section-label reveal" style={{ color: 'var(--sage)' }}>The Details</span>
+      <span className="section-label reveal" style={{ color: 'var(--sage-deep)' }}>The Details</span>
       <h2 className="details-heading reveal reveal-delay-1">Everything you need to know</h2>
       <p className="details-sub reveal reveal-delay-2">Come as you are — we just want you there.</p>
 

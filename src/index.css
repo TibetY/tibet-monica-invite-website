@@ -13,7 +13,7 @@
   --ink-soft:    #4a5c4c;
   --gold:        #c9a86c;
   --gold-light:  #e8d5a8;
-  --muted:       #888;
+  --muted:       #6b6b6b;
   --radius:      14px;
   --font-serif:  'Cormorant Garamond', Georgia, serif;
   --font-sans:   'Jost', system-ui, sans-serif;
@@ -125,7 +125,7 @@ body {
   padding: .9rem 2.4rem;
   border: 1px solid var(--sage-light);
   border-radius: 60px;
-  background: rgba(255,255,255,.55);
+  background: rgba(255,255,255,.72);
   backdrop-filter: blur(6px);
   font-size: .78rem;
   letter-spacing: .18em;
@@ -145,7 +145,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: .6rem;
-  color: var(--sage);
+  color: var(--sage-deep);
   font-size: .68rem;
   letter-spacing: .2em;
   text-transform: uppercase;
@@ -201,7 +201,7 @@ body {
   font-family: var(--font-serif);
   font-size: clamp(1.05rem, 2vw, 1.25rem);
   font-weight: 300;
-  color: rgba(255,255,255,.82);
+  color: rgba(255,255,255,.92);
   max-width: 640px;
   margin: 0 auto;
   line-height: 1.85;
@@ -276,7 +276,7 @@ body {
   letter-spacing: .25em;
   text-transform: uppercase;
   font-weight: 500;
-  color: var(--sage);
+  color: var(--sage-deep);
   margin-bottom: .6rem;
 }
 
@@ -297,7 +297,8 @@ body {
   text-align: center;
 }
 
-.dress-strip .section-label { color: var(--sage-deep); }
+.dress-strip .section-label { color: var(--ink-soft); }
+.story .section-label       { color: rgba(255,255,255,.92); }
 
 .dress-palette {
   display: flex;
@@ -461,7 +462,7 @@ textarea { resize: vertical; min-height: 90px; }
 /* ── Footer ───────────────────────────────────────── */
 footer {
   background: var(--ink);
-  color: rgba(255,255,255,.55);
+  color: rgba(255,255,255,.72);
   text-align: center;
   padding: 3rem 2rem;
   font-size: .78rem;
@@ -489,7 +490,7 @@ footer strong {
 }
 
 .footer-nav a {
-  color: rgba(255,255,255,.55);
+  color: rgba(255,255,255,.72);
   text-decoration: none;
   font-size: .75rem;
   letter-spacing: .1em;
@@ -517,7 +518,7 @@ footer strong {
   letter-spacing: .22em;
   text-transform: uppercase;
   font-weight: 500;
-  color: var(--sage);
+  color: var(--sage-deep);
   margin-bottom: -.2rem;
 }
 

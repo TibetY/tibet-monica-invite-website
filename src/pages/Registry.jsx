@@ -32,7 +32,7 @@ export default function Registry() {
 
       {/* ── Header ── */}
       <div className="registry-header">
-        <span className="section-label" style={{ color: 'var(--sage)' }}>The Wishlist</span>
+        <span className="section-label" style={{ color: 'var(--sage-deep)' }}>The Wishlist</span>
         <h1 className="registry-heading">Gift Registry</h1>
         <div className="registry-divider" />
         <p className="registry-sub">

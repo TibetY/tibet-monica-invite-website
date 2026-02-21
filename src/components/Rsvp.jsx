@@ -92,7 +92,7 @@ export default function Rsvp() {
       </svg>
 
       <div style={{ position: 'relative', zIndex: 1 }}>
-        <span className="section-label reveal" style={{ color: 'var(--sage)' }}>RSVP</span>
+        <span className="section-label reveal" style={{ color: 'var(--sage-deep)' }}>RSVP</span>
         <h2 className="rsvp-heading reveal reveal-delay-1">Will you join us?</h2>
         <p className="rsvp-sub reveal reveal-delay-2">Let us know by 16 April 2026</p>
 
