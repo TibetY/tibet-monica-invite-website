@@ -58,14 +58,6 @@ export default function Registry() {
           <p className="registry-card-label">Our registry lives on</p>
           <p className="registry-card-site">MyRegistry.com</p>
 
-          <div className="registry-chips">
-            {gifts.map((g) => (
-              <span key={g.label} className="registry-chip">
-                {g.emoji} {g.label}
-              </span>
-            ))}
-          </div>
-
           <a
             href={REGISTRY_URL}
             target="_blank"
