@@ -30,6 +30,15 @@ export default function GuestList() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password: pw }),
       });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setPwError(
+          data.error === 'Server configuration error'
+            ? 'Server error — GUESTLIST_PASSWORD is not set in Netlify environment variables.'
+            : `Server error (${res.status}) — please try again later.`
+        );
+        return;
+      }
       const data = await res.json();
       if (data.authorized) {
         setUnlocked(true);
@@ -39,7 +48,7 @@ export default function GuestList() {
         setPw('');
       }
     } catch {
-      setPwError('Could not verify password — please try again.');
+      setPwError('Could not reach the server — please check your connection and try again.');
     } finally {
       setVerifying(false);
     }
