@@ -1,6 +1,6 @@
 export default function Hero() {
   return (
-    <section className="hero">
+    <section className="hero" aria-labelledby="hero-heading">
 
       <svg className="botanical hero-botanical-tl" viewBox="0 0 420 380" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path d="M60 340 C80 280 160 200 240 120 C280 80 340 40 380 20" stroke="#4d7352" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
@@ -29,24 +29,28 @@ export default function Hero() {
 
       <span className="hero-eyebrow">You're invited to celebrate</span>
 
-      <h1 className="hero-names">
+      <h1 id="hero-heading" className="hero-names">
         <em>Tibet</em>
-        <span className="hero-ampersand">&amp;</span>
+        <span className="hero-ampersand" aria-hidden="true">&amp;</span>
         <em>Monica</em>
       </h1>
 
-      <div className="hero-divider" />
+      {/* Decorative divider — hidden from assistive technology */}
+      <div className="hero-divider" aria-hidden="true" />
 
       <p className="hero-tagline">
         We are saying "I do" — now come see where we do life.
         <br />Join us for a housewarming &amp; elopement celebration.
       </p>
 
-      <div className="hero-date-badge">Saturday · 16 May 2026 · 4:00 PM</div>
+      <div className="hero-date-badge">
+        <time dateTime="2026-05-16T16:00">Saturday · 16 May 2026 · 4:00 PM</time>
+      </div>
 
-      <div className="hero-scroll">
+      {/* Decorative scroll indicator — hidden from assistive technology */}
+      <div className="hero-scroll" aria-hidden="true">
         <span>Scroll</span>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
           <path d="M3 6l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </div>

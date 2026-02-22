@@ -25,29 +25,47 @@ export default function GuestList() {
       setUnlocked(true);
       loadGuests();
     } else {
-      setPwError('Incorrect password.');
+      setPwError('Incorrect password. Please try again.');
       setPw('');
     }
   }
 
   if (!unlocked) {
     return (
-      <div className="gate-wrap">
+      <main id="main-content" className="gate-wrap">
         <div className="gate-card">
           <h1>Tibet &amp; Monica</h1>
-          <p>Guest list · Private</p>
-          <input
-            type="password"
-            placeholder="Password"
-            value={pw}
-            onChange={(e) => { setPw(e.target.value); setPwError(''); }}
-            onKeyDown={(e) => e.key === 'Enter' && handleUnlock()}
-            autoFocus
-          />
-          <button className="gate-btn" onClick={handleUnlock}>Enter</button>
-          <div className="gate-error">{pwError}</div>
+          <p>Guest list — private access</p>
+          {/* 1.3.1 — label explicitly associated with password input */}
+          <form
+            onSubmit={(e) => { e.preventDefault(); handleUnlock(); }}
+            aria-label="Guest list login"
+          >
+            <label htmlFor="gate-password" className="gate-label">Password</label>
+            <input
+              id="gate-password"
+              type="password"
+              placeholder="Enter password"
+              value={pw}
+              onChange={(e) => { setPw(e.target.value); setPwError(''); }}
+              aria-invalid={pwError ? 'true' : undefined}
+              aria-describedby={pwError ? 'gate-error-msg' : undefined}
+              autoFocus
+              autoComplete="current-password"
+            />
+            <button type="submit" className="gate-btn">Enter</button>
+          </form>
+          {/* role="alert" announces the error immediately to screen readers */}
+          <div
+            id="gate-error-msg"
+            className="gate-error"
+            role="alert"
+            aria-live="assertive"
+          >
+            {pwError}
+          </div>
         </div>
-      </div>
+      </main>
     );
   }
 
@@ -65,38 +83,47 @@ export default function GuestList() {
         <span className="subtitle">Tibet &amp; Monica · May 2026</span>
       </header>
 
-      <main className="gl-main">
-        <div className="stats">
+      <main id="main-content" className="gl-main">
+        {/* Stats summary */}
+        <div className="stats" role="list" aria-label="RSVP summary statistics">
           {[
             { label: 'RSVPs',         value: totalRsvps  },
             { label: 'Total guests',  value: totalGuests },
             { label: 'Kids',          value: totalKids   },
             { label: 'Dietary notes', value: withDietary },
           ].map(({ label, value }) => (
-            <div key={label} className="stat-card">
-              <div className="stat-label">{label}</div>
-              <div className="stat-value">{loading ? '—' : value}</div>
+            <div key={label} className="stat-card" role="listitem">
+              <div className="stat-label" id={`stat-${label.replace(/\s+/g,'-').toLowerCase()}`}>{label}</div>
+              <div
+                className="stat-value"
+                aria-labelledby={`stat-${label.replace(/\s+/g,'-').toLowerCase()}`}
+              >
+                {loading ? '—' : value}
+              </div>
             </div>
           ))}
         </div>
 
         <div className="table-wrap">
-          {loading && <div className="loading">Loading guests…</div>}
+          {loading && <div className="loading" role="status" aria-live="polite">Loading guests…</div>}
 
           {!loading && guests.length === 0 && (
-            <div className="empty">No RSVPs yet — check back soon.</div>
+            <div className="empty" role="status">No RSVPs yet — check back soon.</div>
           )}
 
           {!loading && guests.length > 0 && (
-            <table>
+            <table aria-label="RSVP guest list">
+              <caption className="sr-only">
+                Guest list with {totalRsvps} RSVPs totalling {totalGuests} guests
+              </caption>
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Party</th>
-                  <th>Dietary</th>
-                  <th>Note</th>
-                  <th>Submitted</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Party</th>
+                  <th scope="col">Dietary</th>
+                  <th scope="col">Note</th>
+                  <th scope="col">Submitted</th>
                 </tr>
               </thead>
               <tbody>
@@ -124,7 +151,9 @@ export default function GuestList() {
                       </td>
                       <td><span style={{ fontSize: '.82rem' }}>{r.email}</span></td>
                       <td>
-                        <span className="pill green">{guestCount} guest{guestCount !== 1 ? 's' : ''}</span>
+                        <span className="pill green">
+                          {guestCount} guest{guestCount !== 1 ? 's' : ''}
+                        </span>
                         {kidsCount > 0 && (
                           <span className="pill" style={{ marginLeft: '.3rem' }}>
                             {kidsCount} kid{kidsCount !== 1 ? 's' : ''}

@@ -1,6 +1,6 @@
 export default function Story() {
   return (
-    <section className="story">
+    <section className="story" aria-labelledby="story-heading">
 
       <svg className="story-botanical story-botanical-l" viewBox="0 0 360 420" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path d="M40 380 C60 310 130 230 200 145 C240 100 300 60 340 30" stroke="#fff" strokeWidth="1.4" fill="none" strokeLinecap="round"/>
@@ -16,8 +16,9 @@ export default function Story() {
       </svg>
 
       <div style={{ position: 'relative', zIndex: 1, maxWidth: '680px', margin: '0 auto' }}>
-        <span className="section-label reveal">The Sitch</span>
-        <h2 className="story-heading reveal reveal-delay-1">
+        {/* "The Sitch" = informal for "The Situation" */}
+        <span className="section-label reveal" aria-label="Our story">The Sitch</span>
+        <h2 id="story-heading" className="story-heading reveal reveal-delay-1">
           We're eloping on May 12th and figured — why not throw one big party for the marriage and the new home?
         </h2>
         <p className="story-text reveal reveal-delay-3">

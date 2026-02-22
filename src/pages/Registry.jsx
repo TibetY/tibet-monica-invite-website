@@ -2,16 +2,9 @@ import { Link } from 'react-router-dom';
 
 const REGISTRY_URL = 'https://www.myregistry.com/giftlist/the-celebration';
 
-const gifts = [
-  { emoji: '🏡', label: 'Home & Garden' },
-  { emoji: '🍳', label: 'Kitchen' },
-  { emoji: '✈️',  label: 'Travel Fund' },
-  { emoji: '📚', label: 'Books & Art' },
-];
-
 export default function Registry() {
   return (
-    <div className="registry-page">
+    <main id="main-content" className="registry-page">
 
       {/* ── Botanical corners ── */}
       <svg className="botanical registry-botanical-tl" viewBox="0 0 420 380" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -32,9 +25,9 @@ export default function Registry() {
 
       {/* ── Header ── */}
       <div className="registry-header">
-        <span className="section-label" style={{ color: 'var(--sage)' }}>The Wishlist</span>
+        <span className="section-label" style={{ color: 'var(--ink)' }}>The Wishlist</span>
         <h1 className="registry-heading">Gift Registry</h1>
-        <div className="registry-divider" />
+        <div className="registry-divider" aria-hidden="true" />
         <p className="registry-sub">
           Your presence is truly the only gift we need —<br />
           but if you'd like to spoil us, here's where to start.
@@ -58,24 +51,29 @@ export default function Registry() {
           <p className="registry-card-label">Our registry lives on</p>
           <p className="registry-card-site">MyRegistry.com</p>
 
+          {/* 2.4.9 — link purpose clear from text alone; new-tab opening announced */}
           <a
             href={REGISTRY_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="registry-cta"
+            aria-label="View Our Registry on MyRegistry.com (opens in a new tab)"
           >
             View Our Registry
           </a>
 
-          <p className="registry-card-hint">Opens in a new tab</p>
+          <p className="registry-card-hint" aria-live="polite">Opens in a new tab</p>
         </div>
       </div>
 
       {/* ── Back link ── */}
       <div className="registry-back">
-        <Link to="/" className="registry-back-link">← Back to invitation</Link>
+        {/* 2.4.9 — descriptive link text without relying on surrounding context */}
+        <Link to="/" className="registry-back-link">
+          Back to invitation
+        </Link>
       </div>
 
-    </div>
+    </main>
   );
 }
