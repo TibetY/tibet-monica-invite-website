@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { db } from '../lib/supabase';
 
-const PASSWORD = import.meta.env.VITE_GUESTLIST_PASSWORD;
-
 export default function GuestList() {
   const [unlocked, setUnlocked] = useState(false);
   const [pw, setPw] = useState('');
   const [pwError, setPwError] = useState('');
+  const [verifying, setVerifying] = useState(false);
   const [guests, setGuests] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -20,13 +19,29 @@ export default function GuestList() {
     if (!error && data) setGuests(data);
   }
 
-  function handleUnlock() {
-    if (pw === PASSWORD) {
-      setUnlocked(true);
-      loadGuests();
-    } else {
-      setPwError('Incorrect password. Please try again.');
-      setPw('');
+  // Password is verified server-side via a Netlify Function so it never
+  // appears in the client JS bundle.
+  async function handleUnlock() {
+    setVerifying(true);
+    setPwError('');
+    try {
+      const res = await fetch('/.netlify/functions/verify-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pw }),
+      });
+      const data = await res.json();
+      if (data.authorized) {
+        setUnlocked(true);
+        loadGuests();
+      } else {
+        setPwError('Incorrect password. Please try again.');
+        setPw('');
+      }
+    } catch {
+      setPwError('Could not verify password — please try again.');
+    } finally {
+      setVerifying(false);
     }
   }
 
@@ -53,7 +68,9 @@ export default function GuestList() {
               autoFocus
               autoComplete="current-password"
             />
-            <button type="submit" className="gate-btn">Enter</button>
+            <button type="submit" className="gate-btn" disabled={verifying}>
+              {verifying ? 'Checking…' : 'Enter'}
+            </button>
           </form>
           {/* role="alert" announces the error immediately to screen readers */}
           <div
