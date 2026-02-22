@@ -2,7 +2,7 @@
   "name": "tibet-monica-invite-website",
   "private": true,
   "scripts": {
-    "dev": "vite",
+    "dev": "netlify dev",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.0.0",
+    "netlify-cli": "^23.15.1",
     "vite": "^6.0.0"
   }
 }
