@@ -11,11 +11,14 @@ export default function Home() {
 
   return (
     <>
+      {/* Hero sits outside <main> as a banner/landmark; main starts at content sections */}
       <Hero />
-      <Story />
-      <Details />
-      <DressCode />
-      <Rsvp />
+      <main id="main-content">
+        <Story />
+        <Details />
+        <DressCode />
+        <Rsvp />
+      </main>
       <Footer />
     </>
   );
