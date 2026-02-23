@@ -178,7 +178,6 @@ body {
 .hero-scroll {
   position: absolute;
   bottom: 2.4rem;
-  left: 50%;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;

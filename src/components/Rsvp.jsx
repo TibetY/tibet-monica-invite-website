@@ -418,11 +418,11 @@ export default function Rsvp() {
         <p className="rsvp-deadline reveal">
           Questions? Reach us at{' '}
           <a
-            href="mailto:tibety@protonmail.com"
+            href="mailto:invitation@thecelebration.ca"
             style={{ color: 'var(--ink)', textDecoration: 'underline' }}
-            aria-label="Email us at tibety@protonmail.com"
+            aria-label="Email us at invitation@thecelebration.ca"
           >
-            tibety@protonmail.com
+            invitation@thecelebration.ca
           </a>
         </p>
       </div>
