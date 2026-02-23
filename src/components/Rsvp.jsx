@@ -152,6 +152,16 @@ export default function Rsvp() {
               We'll be in touch soon with the address and all the details.
               Thank you for celebrating with us.
             </p>
+
+          <a
+                type="button"
+                className="btn"
+                href="/registry"
+                style={{ textDecoration: 'none' }}
+              >
+                View Registry
+          </a>
+
           </div>
 
         ) : reviewing ? (
@@ -410,7 +420,7 @@ export default function Rsvp() {
             </div>
 
             <button type="submit" className="btn" disabled={submitting}>
-              Review RSVP
+              RSVP
             </button>
           </form>
         )}
