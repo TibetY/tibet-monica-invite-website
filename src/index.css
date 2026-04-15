@@ -400,7 +400,83 @@ body {
   font-style: italic;
   font-size: 1.05rem;
   color: var(--ink);
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
+}
+
+/* ── Countdown Timer ─────────────────────────────── */
+.countdown { margin-bottom: 2.5rem; }
+
+.countdown-units {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: .6rem;
+}
+
+.countdown-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 56px;
+}
+
+.countdown-value {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 300;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.countdown-label-text {
+  font-size: .62rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: .4rem;
+}
+
+.countdown-sep {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 300;
+  color: var(--gold);
+  line-height: 1;
+  padding-top: .1rem;
+}
+
+/* ── RSVP Lock (post-deadline password gate) ─────── */
+.rsvp-lock {
+  max-width: 380px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.rsvp-lock-msg {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-style: italic;
+  color: var(--ink);
+  margin-bottom: .5rem;
+}
+
+.rsvp-lock-sub {
+  font-size: .85rem;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+
+.rsvp-lock-form {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  align-items: center;
+}
+
+.rsvp-lock-form input[type="password"] {
+  max-width: 280px;
+  text-align: center;
 }
 
 .rsvp-form {
