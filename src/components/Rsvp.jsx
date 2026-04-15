@@ -36,6 +36,7 @@ export default function Rsvp() {
 
   const reviewHeadingRef = useRef(null);
   const thankyouHeadingRef = useRef(null);
+  const hasReviewedRef = useRef(false);
 
   // Move focus to review heading when review step opens (2.4.3 — Focus Order)
   useEffect(() => {
@@ -118,6 +119,7 @@ export default function Rsvp() {
       return;
     }
     setReviewing(true);
+    hasReviewedRef.current = true;
   }
 
   // Second click: actually submit
@@ -326,7 +328,7 @@ export default function Rsvp() {
         ) : (
           /* ── Main form ── */
           <form
-            className="rsvp-form reveal reveal-delay-2"
+            className={`rsvp-form${hasReviewedRef.current ? '' : ' reveal reveal-delay-2'}`}
             onSubmit={handleReview}
             noValidate
             aria-label="RSVP form"
