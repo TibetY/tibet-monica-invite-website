@@ -7,6 +7,19 @@ const INITIAL_FORM = {
   dietary: '', note: '',
 };
 
+const DEADLINE = new Date('2026-04-16T00:00:00'); // midnight end of April 15
+
+function getTimeLeft() {
+  const diff = DEADLINE.getTime() - Date.now();
+  if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+  return {
+    days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+    hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+    minutes: Math.floor((diff / (1000 * 60)) % 60),
+    seconds: Math.floor((diff / 1000) % 60),
+  };
+}
+
 export default function Rsvp() {
   const [form, setForm]               = useState(INITIAL_FORM);
   const [extraGuests, setExtraGuests] = useState([]);
@@ -14,6 +27,12 @@ export default function Rsvp() {
   const [submitting, setSubmitting]   = useState(false);
   const [reviewing, setReviewing]     = useState(false); // 3.3.6 AAA — review before submit
   const [errors, setErrors]           = useState({});
+
+  const [expired, setExpired]         = useState(Date.now() >= DEADLINE.getTime());
+  const [unlocked, setUnlocked]      = useState(false);
+  const [rsvpPassword, setRsvpPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [countdown, setCountdown]    = useState(getTimeLeft);
 
   const reviewHeadingRef = useRef(null);
   const thankyouHeadingRef = useRef(null);
@@ -31,6 +50,20 @@ export default function Rsvp() {
       thankyouHeadingRef.current.focus();
     }
   }, [submitted]);
+
+  // Countdown timer
+  useEffect(() => {
+    if (expired) return;
+    const id = setInterval(() => {
+      const left = getTimeLeft();
+      setCountdown(left);
+      if (left.days === 0 && left.hours === 0 && left.minutes === 0 && left.seconds === 0) {
+        setExpired(true);
+        clearInterval(id);
+      }
+    }, 1000);
+    return () => clearInterval(id);
+  }, [expired]);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -52,6 +85,26 @@ export default function Rsvp() {
     setExtraGuests((prev) =>
       prev.map((g) => (g.id === id ? { ...g, [field]: value } : g))
     );
+  }
+
+  async function handlePasswordSubmit(e) {
+    e.preventDefault();
+    setPasswordError('');
+    try {
+      const res = await fetch('/.netlify/functions/verify-rsvp-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: rsvpPassword }),
+      });
+      const data = await res.json();
+      if (data.authorized) {
+        setUnlocked(true);
+      } else {
+        setPasswordError('Incorrect password');
+      }
+    } catch {
+      setPasswordError('Something went wrong — please try again');
+    }
   }
 
   // First click: validate then show review panel (3.3.6 AAA)
@@ -129,6 +182,33 @@ export default function Rsvp() {
           Let us know by <time dateTime="2026-04-16">16 April 2026</time>
         </p>
 
+        {/* Countdown timer */}
+        {!expired && (
+          <div className="countdown reveal reveal-delay-2" role="timer" aria-label="Registration closes in">
+            <div className="countdown-units">
+              <div className="countdown-unit">
+                <span className="countdown-value">{String(countdown.days).padStart(2, '0')}</span>
+                <span className="countdown-label-text">Days</span>
+              </div>
+              <span className="countdown-sep" aria-hidden="true">:</span>
+              <div className="countdown-unit">
+                <span className="countdown-value">{String(countdown.hours).padStart(2, '0')}</span>
+                <span className="countdown-label-text">Hours</span>
+              </div>
+              <span className="countdown-sep" aria-hidden="true">:</span>
+              <div className="countdown-unit">
+                <span className="countdown-value">{String(countdown.minutes).padStart(2, '0')}</span>
+                <span className="countdown-label-text">Min</span>
+              </div>
+              <span className="countdown-sep" aria-hidden="true">:</span>
+              <div className="countdown-unit">
+                <span className="countdown-value">{String(countdown.seconds).padStart(2, '0')}</span>
+                <span className="countdown-label-text">Sec</span>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Submit error (non-network) */}
         {errors.submit && (
           <p role="alert" style={{ color: 'var(--error-text)', marginBottom: '1rem', fontSize: '.9rem' }}>
@@ -162,6 +242,25 @@ export default function Rsvp() {
                 View Registry
           </a>
 
+          </div>
+
+        ) : expired && !unlocked ? (
+          /* ── Password lock after deadline ── */
+          <div className="rsvp-lock" role="region" aria-label="Registration closed">
+            <p className="rsvp-lock-msg">Registration is now closed.</p>
+            <p className="rsvp-lock-sub">If you have the password, you can still RSVP below.</p>
+            <form className="rsvp-lock-form" onSubmit={handlePasswordSubmit}>
+              <label htmlFor="rsvp-pw" className="gate-label">Password</label>
+              <input
+                type="password"
+                id="rsvp-pw"
+                value={rsvpPassword}
+                onChange={(e) => setRsvpPassword(e.target.value)}
+                autoComplete="off"
+              />
+              <button type="submit" className="btn">Unlock</button>
+              {passwordError && <p className="gate-error" role="alert">{passwordError}</p>}
+            </form>
           </div>
 
         ) : reviewing ? (
