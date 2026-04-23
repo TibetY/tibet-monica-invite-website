@@ -7,7 +7,7 @@ const INITIAL_FORM = {
   dietary: '', note: '',
 };
 
-const DEADLINE = new Date('2026-04-16T00:00:00'); // midnight end of April 15
+const DEADLINE = new Date('2026-05-05T00:00:00'); // midnight end of May 4
 
 function getTimeLeft() {
   const diff = DEADLINE.getTime() - Date.now();
@@ -181,7 +181,7 @@ export default function Rsvp() {
         <span className="section-label reveal" style={{ color: 'var(--ink)' }}>RSVP</span>
         <h2 id="rsvp-heading" className="rsvp-heading reveal reveal-delay-1">Will you join us?</h2>
         <p className="rsvp-sub reveal reveal-delay-2">
-          Let us know by <time dateTime="2026-04-16">16 April 2026</time>
+          Let us know by <time dateTime="2026-05-05">5 May 2026</time>
         </p>
 
         {/* Countdown timer */}
